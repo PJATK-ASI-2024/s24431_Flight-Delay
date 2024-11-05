@@ -4,7 +4,7 @@
 ## Problem projektu
  Możliwość lepszego planowania lotów.
 ## Źródło danych
-- [Link-dataset] – około 539383 linii danych.
+- [Link-dataset] – około 539383 linii danych.  
 Kolumny:  
 - Airline  
 - Flight  
