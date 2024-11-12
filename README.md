@@ -19,8 +19,16 @@ Kolumny:
  - Dokształcanie modelu.  
  -  Publikacja oraz prezentacja.  
 
+# Aktualizacje
+## Projekt - 2 - prototypowanie
+Dodano folder Notebooks wraz z podfolderami. W podfolderach znajdują się pliki z 2 zadania projektowego.  
 
+Struktura plików zadania 2:  
+Notebooks -> Task2 -> EDA i Pycaret_Best_Model  
 
-
+W src/s24431.py stworzono skrypt będący implementacją najlepszego modelu.  
+Podczas pracy stworzono pliki z raportem sweetviz, prepared_data.csv, label_mappings.json - plik z danymi klucz - wartość danych przed przekształceniem,
+oraz skrypty EDA.py i Pycaret.py. Pliki znajdują się w Notebooks/EDA oraz Notebooks/Pycaret_Best_Model, dane po przygotowaniu zostały umieszczone w folderze data.    
+Dodano osobny plik z dokumentacją, zakutalizowano README.md.    
 
 [Link-dataset]: https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay
