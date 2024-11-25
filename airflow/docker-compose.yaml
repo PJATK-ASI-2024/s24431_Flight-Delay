@@ -1,38 +1,57 @@
 version: '3.8'
 
 services:
-  airflow-webserver:
-    image: apache/airflow:2.7.1
+  postgres:
+    image: postgres:13
+    container_name: airflow-postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  airflow:
+    image: apache/airflow:2.6.0
     container_name: airflow-webserver
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'my_secret_key'
     ports:
       - "8080:8080"
-    environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@airflow-db/airflow
-      - AIRFLOW__CORE__FERNET_KEY=this_is_your_fernet_key
-      - AIRFLOW__WEBSERVER__SECRET_KEY=this_is_your_secret_key
-      - AIRFLOW__CORE__LOAD_EXAMPLES=False
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      - ./processed_data:/opt/airflow/processed_data
+      - ./requirements.txt:/requirements.txt
+    command: bash -c "pip install -r /requirements.txt && airflow db init && airflow webserver"
     depends_on:
-      - airflow-db
-    command: >
-      bash -c "pip install gspread oauth2client scikit-learn &&
-               airflow webserver"
+      - postgres
 
-  airflow-scheduler:
-    image: apache/airflow:2.7.1
+  scheduler:
+    image: apache/airflow:2.6.0
     container_name: airflow-scheduler
     environment:
-      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
-      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@airflow-db/airflow
-      - AIRFLOW__CORE__FERNET_KEY=this_is_your_fernet_key
-      - AIRFLOW__WEBSERVER__SECRET_KEY=this_is_your_secret_key
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
+      - ./processed_data:/opt/airflow/processed_data
+      - ./models:/opt/airflow/models
+      - ./reports:/opt/airflow/reports
+      - ./visualizations:/opt/airflow/visualizations
+      - ./requirements.txt:/requirements.txt
+    command: bash -c "pip install -r /requirements.txt && airflow scheduler"
     depends_on:
-      - airflow-webserver
+      - postgres
+
+volumes:
+  postgres_data:
