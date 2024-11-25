@@ -36,4 +36,9 @@ Dodano osobny plik z dokumentacją, zakutalizowano README.md.
 Dodano folder airflow wraz z nim podfolder dags z dagami, dodano plik label_mappings.json z mapowaniem zmiennych. Stworzono docker-compose.yaml.  
 Zaktualizowano Dokumentacje i readme.md
 
+## Projekt - 4 
+Dodano strukture folderow w /airflow, dodano dagi i wygenerowane przez nie pliki.  
+Stworzono model.
+
 [Link-dataset]: https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay
+
