@@ -20,20 +20,30 @@ Kolumny:
  - Dokształcanie modelu.  
  -  Publikacja oraz prezentacja.  
 
-# Aktualizacje
-## Projekt - 2 - prototypowanie
-Dodano folder Notebooks wraz z podfolderami. W podfolderach znajdują się pliki z 2 zadania projektowego.  
+# Uruchomienie
 
-Struktura plików zadania 2:  
-Notebooks -> Task2 -> EDA i Pycaret_Best_Model  
+Uruchomienie docker:  
+docker pull bartoszkunc/flight_pred_app:latest  
+docker run -p 5000:5000 bartoszkunc/flight_pred_app:latest   
+w przeglądrace: http://localhost:5000/docs  
 
-W src/s24431.py stworzono skrypt będący implementacją najlepszego modelu.  
-Podczas pracy stworzono pliki z raportem sweetviz, prepared_data.csv, label_mappings.json - plik z danymi klucz - wartość danych przed przekształceniem,
-oraz skrypty EDA.py i Pycaret.py. Pliki znajdują się w Notebooks/EDA oraz Notebooks/Pycaret_Best_Model, dane po przygotowaniu zostały umieszczone w folderze data.    
-Dodano osobny plik z dokumentacją, zakutalizowano README.md.
+Postman:  
+New -> http  
+Zmiana pakietu na POST  
+adres: http://127.0.0.1:5000/predict  
+raw JSON ustawiony w zakładce body np.:  
+{  
+    "Airline": 2,  
+    "AirportFrom": 8,  
+    "AirportTo": 197,  
+    "DayOfWeek":2,  
+    "Time": 30,  
+    "Lenght": 202  
+}  
+Output:  
+{  
+    "prediction": 0  
+}  
 
-## Projekt – 3 – Airflow  
-Dodano folder airflow wraz z nim podfolder dags z dagami, dodano plik label_mappings.json z mapowaniem zmiennych. Stworzono docker-compose.yaml.  
-Zaktualizowano Dokumentacje i readme.md
 
 [Link-dataset]: https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay
