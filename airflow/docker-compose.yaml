@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: airflow-postgres
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data2
+
+  airflow:
+    image: apache/airflow:2.6.0
+    container_name: airflow-webserver
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+      AIRFLOW__WEBSERVER__SECRET_KEY: 'my_secret_key'
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./processed_data:/opt/airflow/processed_data
+      - ./requirements.txt:/requirements.txt
+    command: bash -c "pip install -r /requirements.txt && airflow db init && airflow webserver"
+    depends_on:
+      - postgres
+
+  scheduler:
+    image: apache/airflow:2.6.0
+    container_name: airflow-scheduler
+    environment:
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__CORE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+      AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
+    volumes:
+      - ./dags:/opt/airflow/dags
+      - ./logs:/opt/airflow/logs
+      - ./plugins:/opt/airflow/plugins
+      - ./processed_data:/opt/airflow/processed_data
+      - ./models:/opt/airflow/models
+      - ./reports:/opt/airflow/reports
+      - ./visualizations:/opt/airflow/visualizations
+      - ./requirements.txt:/requirements.txt
+    command: bash -c "pip install -r /requirements.txt && airflow scheduler"
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:
