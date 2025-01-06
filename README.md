@@ -32,5 +32,7 @@ git clone https://github.com/PJATK-ASI-2024/s24431_Flight-Delay.git
 Potrzebny będzie docker a następnie po uruchomieniu:  
 Przejście do katalogu z pobranymi plikami.  
 Uruchomienie następujej komendy:  
-docker-compose up
+docker-compose up  
+
+
 [Link-dataset]: https://www.kaggle.com/datasets/jimschacko/airlines-dataset-to-predict-a-delay
