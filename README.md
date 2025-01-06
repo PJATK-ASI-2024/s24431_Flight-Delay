@@ -2,7 +2,7 @@
 ## Cel projektu
  Celem jest stworzenie modelu, który będzie przewidywać prawdopodobieństwo opóźnienia lotu na podstawie różnych cech, takich jak: linia lotnicza, lotnisko początkowe, lotnisko docelowe, godzina odlotu, dzień odlotu.
 ## Problem projektu
- Możliwość lepszego planowania lotów.
+ Możliwość lepszego planowania lotów w celu poprawy satysfakcji klientów lotniska.
 ## Źródło danych
 - [Link-dataset] – około 539383 linii danych.
     
