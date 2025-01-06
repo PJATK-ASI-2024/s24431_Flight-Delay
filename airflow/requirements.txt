@@ -1,7 +1,0 @@
-apache-airflow
-pandas
-seaborn
-matplotlib
-scikit-learn
-xgboost
-gspread
